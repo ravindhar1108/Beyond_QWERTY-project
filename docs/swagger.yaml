@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Authentication API
+  description: API for user authentication (signup, login, and protected routes)
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+    description: Local server
+
+paths:
+  /signup:
+    post:
+      summary: Register a new user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "apurv"
+                email:
+                  type: string
+                  example: "apurv@example.com"
+                password:
+                  type: string
+                  example: "securepassword"
+      responses:
+        201:
+          description: User registered successfully
+        400:
+          description: User already exists
+        500:
+          description: Server error
+
+  /login:
+    post:
+      summary: Login a user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "apurv@example.com"
+                password:
+                  type: string
+                  example: "securepassword"
+      responses:
+        200:
+          description: Login successful
+        400:
+          description: Invalid email or password
+        500:
+          description: Server error
+
+  /protected:
+    get:
+      summary: Access a protected route
+      tags:
+        - Protected
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Protected route accessed
+        401:
+          description: Unauthorized (Invalid or missing token)
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
