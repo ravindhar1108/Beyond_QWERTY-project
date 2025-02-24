@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const { initializeDatabase } = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const formRoutes = require("./routes/formRoutes");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -15,6 +16,7 @@ app.use(cors());
 
 // Routes
 app.use("/api", authRoutes);
+app.use("/api", formRoutes);
 
 // Swagger Setup
 const swaggerOptions = {
